@@ -112,7 +112,7 @@ Ext.define('CA.technicalservices.filter.AdvancedFilterQuickRow',{
     _showQuickFilterPopover: function(button) {
         var addQuickFilterConfig = Ext.clone(this.addQuickFilterConfig);
             var blackList =  _.map(this.fields, 'name');
-
+            
             if (addQuickFilterConfig && addQuickFilterConfig.whiteListFields) {
                 addQuickFilterConfig.whiteListFields = _.reject(this.addQuickFilterConfig.whiteListFields, function(field){
                     return _.contains(blackList, field);
@@ -133,15 +133,15 @@ Ext.define('CA.technicalservices.filter.AdvancedFilterQuickRow',{
                         }
                     ],
                     blackListFields: blackList,
-                    _getModelNamesForDuplicates: function(field, fields) {
-                        var fieldCounts = _.countBy(fields, 'displayName');
-                        
-                        // TODO figure out what to do about using multiple record types
-//                        if (fieldCounts[field.displayName] > 1) {
-//                            return _.pluck(this.model.getModelsForField(field), 'displayName').join(', ');
-//                        }
-                        return '';
-                    },
+//                    _getModelNamesForDuplicates: function(field, fields) {
+//                        var fieldCounts = _.countBy(fields, 'displayName');
+//                        
+//                        // TODO figure out what to do about using multiple record types
+////                        if (fieldCounts[field.displayName] > 1) {
+////                            return _.pluck(this.model.getModelsForField(field), 'displayName').join(', ');
+////                        }
+//                        return '';
+//                    },
                     listeners: {
                         select: function(field, value) {
                             var fieldSelected = value[0].raw;
