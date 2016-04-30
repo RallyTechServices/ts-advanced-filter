@@ -222,6 +222,10 @@ Ext.define('CA.technicalservices.filter.AdvancedFilter',{
         });
     },
     
+    getFilters: function() {
+        return this.quickFilters || [];
+    },
+    
     _getQuickFilterConfig: function() {
         var filter_map = {};
         Ext.Array.each(this.quickFilters, function(filter) {

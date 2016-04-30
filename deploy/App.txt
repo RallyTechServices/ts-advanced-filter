@@ -3,11 +3,11 @@
 <head>
     <title>TS Advanced Filter</title>
     <!--  (c) 2015,2016 CA Technologies.  All Rights Reserved. -->
-    <!--  Build Date: Fri Apr 29 2016 20:15:14 GMT-0700 (PDT) -->
+    <!--  Build Date: Fri Apr 29 2016 20:22:57 GMT-0700 (PDT) -->
     
     <script type="text/javascript">
-        var APP_BUILD_DATE = "Fri Apr 29 2016 20:15:14 GMT-0700 (PDT)";
-        var CHECKSUM = 31448581800;
+        var APP_BUILD_DATE = "Fri Apr 29 2016 20:22:57 GMT-0700 (PDT)";
+        var CHECKSUM = 31581973264;
     </script>
     
     <script type="text/javascript" src="/apps/2.1/sdk-debug.js"></script>
@@ -1190,6 +1190,10 @@ Ext.define('CA.technicalservices.filter.AdvancedFilter',{
         return Ext.Array.map(this.filters, function(filter) {
             return filter.config;
         });
+    },
+    
+    getFilters: function() {
+        return this.quickFilters || [];
     },
     
     _getQuickFilterConfig: function() {
