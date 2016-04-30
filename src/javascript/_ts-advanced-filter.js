@@ -55,10 +55,14 @@ Ext.define('CA.technicalservices.filter.AdvancedFilter',{
         };
     },
     
-
     constructor: function(config) {
         this.mergeConfig(config);
         this.callParent([this.config]);
+        this._setButton();
+        this.down('#filterButton').on('click', this._showHideFilters, this);
+        if ( this.quickFilters && this.quickFilters.length > 0 ) {
+            this.fireEvent('filterselected', this, this.quickFilters);
+        }
     },
 
     initComponent: function() {
@@ -73,8 +77,6 @@ Ext.define('CA.technicalservices.filter.AdvancedFilter',{
              */
             'filterselected'
         );
-        
-        this.down('#filterButton').on('click', this._showHideFilters, this);
     },
     
     _showHideFilters: function(button) {
@@ -112,6 +114,7 @@ Ext.define('CA.technicalservices.filter.AdvancedFilter',{
                 scope: this,
                 quickfilterchange: function(row, filters) {
                     this.quickFilters = filters;
+                    this._setButton();
                     this.fireEvent('filterselected', this, filters);
                 }
             }
@@ -195,9 +198,15 @@ Ext.define('CA.technicalservices.filter.AdvancedFilter',{
     
     _setButton: function() {
         var button = this.down('#filterButton');
+        console.log('_setButton',this.quickFilters,this.quickFilterMap);
         
-        if ( this.filters && this.filters.length > 0 ) {
-            button.setText('<span class="icon-filter"> </span> (' + this.filters.length + ')');
+        if ( ( this.filters && this.filters.length > 0 ) || ( this.quickFilters && this.quickFilters.length > 0 ) ) {
+            var count = this.filters && this.filters.length || 0;
+            if ( count === 0 ) {
+                count = this.quickFilters && this.quickFilters.length;
+            }
+            
+            button.setText('<span class="icon-filter"> </span> (' + count + ')');
             button.addCls('reverse');
             return;
         }
