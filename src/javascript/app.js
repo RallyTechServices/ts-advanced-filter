@@ -17,6 +17,8 @@ Ext.define("TSAdvancedFilter", {
             xtype:'tsadvancedfilter',
             stateful: true,
             stateId: 'ts1',
+            allowAdvancedFilters: false,
+            allowQuickFilters: true,
             stateEvents: ['filterselected'],
             listeners: {
                 scope: this,
