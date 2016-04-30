@@ -53,7 +53,7 @@ Ext.define('CA.technicalservices.filter.AdvancedFilterQuickRow',{
             /**
              * @event quickfilterchange
              * @param {CA.technicalservices.filter.AdvancedFilterQuickRow} this the quick filter row
-             * @param {Rally.data.wsapi.Filter} wsapiFilter the filter selected
+             * @param [{Rally.data.wsapi.Filter}] wsapiFilters the filters selected
              */
             'quickfilterchange'
         );
@@ -274,11 +274,29 @@ Ext.define('CA.technicalservices.filter.AdvancedFilterQuickRow',{
     
     _removeQuickFilter: function(field) {
         var arrayIndex = field.beforeLabelTextTpl.filterIndex - 1;
-        this.fields[arrayIndex].destroy();
+        this.fields[arrayIndex] && this.fields[arrayIndex].destroy();
         this.fields.splice(arrayIndex, 1);
-        //this.updateFilterIndices();
-        this.fireEvent('quickfilterchange', field, this);
+        this.updateFilterIndices();
+        this.fireEvent('quickfilterchange', this, this.getFilters());
 
+    },
+    
+    updateFilterIndices: function(matchType) {
+        this.matchType = matchType || this.matchType;
+
+        _.each(this.fields, function (field, index) {
+            field.beforeLabelTextTpl.displayIndex = this.isCustomMatchType();
+            field.beforeLabelTextTpl.filterIndex = index + 1;
+            field.beforeLabelTextTpl.overwrite(field.labelEl.down('.filter-index'));
+            if (this.isCustomMatchType()) {
+                field.addCls('indexed-field');
+            } else {
+                field.removeCls('indexed-field');
+            }
+            if (Ext.isIE10m && field.inputEl) {
+                field.setValue(field.getValue());
+            }
+        }, this);
     },
 
     _shouldApplyFiltersOnSelect: function(fieldConfig) {
@@ -335,6 +353,10 @@ Ext.define('CA.technicalservices.filter.AdvancedFilterQuickRow',{
                 }
             }
         }, this);
-        return filters;
+        
+        var filter_hash = {};
+        Ext.Array.each(filters, function(filter){ filter_hash[filter.name] = filter; });
+        
+        return Ext.Object.getValues(filter_hash);
     }
 });

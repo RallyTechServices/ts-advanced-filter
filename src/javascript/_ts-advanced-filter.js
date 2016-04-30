@@ -113,7 +113,9 @@ Ext.define('CA.technicalservices.filter.AdvancedFilter',{
             listeners: {
                 scope: this,
                 quickfilterchange: function(row, filters) {
+                    console.log('filters:', filters);
                     this.quickFilters = filters;
+                    this.quickFilterMap = this._getQuickFilterConfig();
                     this._setButton();
                     this.fireEvent('filterselected', this, filters);
                 }
@@ -198,7 +200,6 @@ Ext.define('CA.technicalservices.filter.AdvancedFilter',{
     
     _setButton: function() {
         var button = this.down('#filterButton');
-        console.log('_setButton',this.quickFilters,this.quickFilterMap);
         
         if ( ( this.filters && this.filters.length > 0 ) || ( this.quickFilters && this.quickFilters.length > 0 ) ) {
             var count = this.filters && this.filters.length || 0;
